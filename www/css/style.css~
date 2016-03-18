@@ -1,0 +1,98 @@
+@CHARSET "UTF-8";
+
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-5ths {
+    width: 20%;
+    float: left;
+}
+@media (min-width: 768px) {
+.col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+.panel-body .panel-body {
+	padding: 0px;
+	margin : 0px;
+}
+
+#panel-game-controls {
+	padding: 10px 0px 0px 25px;
+}
+
+.bootcards-summary .panel-body .bootcards-summary-item h4 {
+	font-size: 14px;
+}
+
+.panel-control {
+	padding: 7px;
+}
+
+.hack-objectives {
+	color: black;
+}
+
+.bootcards-summary .panel-body .bootcards-summary-item .label {
+	top: 5px;
+	right: 5px;
+}
+
+.hack-objective {
+	padding-right:4px;
+}
+
+.hack-hacker {
+    display: inline;
+    line-height: 1;
+    text-align: center;
+    position: absolute;
+    top: 100px;
+    right: 75px;
+    color: black;
+}
+
+.hacker-black-hat {
+    color: black;
+}
+
+.hacker-state-sponsored {
+    color: red;
+}
+
+.hacker-cyber-terrorist {
+    color: green;
+}
+
+.hacker-script-kiddie {
+    color: blue;
+}
+
+.hacker-hacktivist {
+    color: orange;
+}
+
+.hacker-spy {
+    color: purple;
+}

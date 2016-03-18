@@ -1,0 +1,37 @@
+<div class="container bootcards-container" id="main">
+		<div class="row">
+			<div class="bootcards-cards">
+				<div class="col-md-9">
+					<div class="panel panel-default bootcards-summary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Dashboard</h3>
+						</div>
+						<div class="panel-body">
+							<div class="col-md-9 panel-body">
+								<div class="row">
+									<div class="col-md-5ths col-xs-2" ng-repeat="type in hackerTypes">
+										<a class="bootcards-summary-item" href="#" data-pjax="#main"
+											data-title="Email" style="padding-top: 35px;"> <i
+											class="fa fa-3x fa-envelope"></i>
+											<h4>
+												{{type.typeName}} <span class="label hack-objectives"> <i
+													class="fa fa-2x fa-cogs"></i>
+												</span>
+													<span class="hack-hacker hacker-black-hat"> 
+														<i class="fa fa-2x fa-user-secret"></i>
+													</span>
+											</h4>
+										</a>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+
+			</div>
+			
+		</div>
+
+	</div>
