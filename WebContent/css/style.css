@@ -96,3 +96,11 @@
 .hacker-spy {
     color: purple;
 }
+
+.rotate-right45 {
+	-webkit-transform: rotate(45deg);
+}
+
+.rotate-left45 {
+	-webkit-transform: rotate(-45deg);
+}
