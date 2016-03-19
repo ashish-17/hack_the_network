@@ -49,8 +49,6 @@
 		
 	};
 	
-	$('.hack-chat').hide();
-	
 	/*
 	 * Initialize Bootcards.
 	 * 

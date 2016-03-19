@@ -538,10 +538,38 @@
 							<h3 class="panel-title">Chat Box</h3>
 						</div>
 						<div class="panel-body">
-							<div id="canvas-holder">
-								<canvas id="security-level" width="100" height="100"></canvas>
-								<div>Here goes the chat history..scrollable div with overflow = hide</div> 
-								<input type="text">This will be the input box where user can type his chat</input>
+							<div id="chat-box">
+								<div id="chat-messages">
+									<ul class="messages">
+										<li class="log">Welcome to Hackers chat –</li>
+										<li class="log">there are 3 participants</li>
+										<li class="message">
+											<span class="hacker-script-kiddie message-hacker"> 
+												<i class="fa fa-2x fa-user-secret"></i>
+											</span> 
+											<span class="messageBody">Hi I am script kiddie</span>
+										</li>
+										<li class="message">
+											<span class="hacker-state-sponsored message-hacker"> 
+												<i class="fa fa-2x fa-user-secret"></i>
+											</span> 
+											<span class="messageBody">Hi I am state sponsored hacker. And I like to type in long messages. Let's see hot the chat box handles it.</span>
+										</li>
+										<li class="message">
+											<span class="hacker-script-black-hat message-hacker"> 
+												<i class="fa fa-2x fa-user-secret"></i>
+											</span> 
+											<span class="messageBody">Hi I am script kiddie</span>
+										</li>
+										<li class="message">
+											<span class="hacker-script-kiddie message-hacker"> 
+												<i class="fa fa-2x fa-user-secret"></i>
+											</span> 
+											<span class="messageBody">Where are others?</span>
+										</li>
+									</ul>
+								</div>
+								<input type="text" id="chat-input"></input>
 							</div>
 
 						</div>
@@ -555,6 +583,10 @@
 					<div class="panel-footer">
 						<small class="pull-right"> Hack The Network </small>
 					</div>
+					
+					<script type="text/javascript">
+						$('.hack-chat').hide();
+					</script>
 				</div>
 			</div>
 		</div>
