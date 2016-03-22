@@ -81,25 +81,14 @@ app.factory('SocketFactory',function($q){
          
          }else{
          
+            console.log("Emitting the event:"+event);
             socket.emit(event,data);
          
          } 
      
   }  
     
-   
-   
- /* var gameInit = function (data) {
-
-                App.gameId = data.gameId;
-                App.mySocketId = data.mySocketId;
-                App.myRole = data.role;
-                App.details = data.details;
-                console.log("In socket service, app is:"+App.myRole);                
-                
-            }*/
-            
-            
+           
   var getPlayerId = function(){
    
      return mySocketId;  
@@ -121,7 +110,6 @@ app.factory('SocketFactory',function($q){
       };
       console.log("Emiting the changeHackerPosition");
       socket.emit('changeHackerPosition',data);
-      
       
   };
   

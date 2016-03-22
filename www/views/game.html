@@ -1,6 +1,12 @@
 <div id="game">
 	<div class="container bootcards-container" id="main">
-		<div class="row">
+	    
+	    <div class="row">
+	       <div class="col-md-9">
+	         <div class="alert alert-success" role="alert">{{logMessage}}</div>
+	       </div>
+	    </div>
+		<div class="row" ng-class="coverClass">
 			<div class="bootcards-cards">
 				<div class="col-md-9">
 					<div class="panel panel-default bootcards-summary">
@@ -360,49 +366,49 @@
 												</button>
 											</div>-->
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="" ng-show="canMoveDiagonal" ng-click="upLeft()">
+												<button class="btn btn-default btn-block" onclick="" ng-show="canMoveDiagonal" ng-disabled="!(canStartGame)" ng-click="upLeft()">
 													<i class="fa fa-arrow-up rotate-left45"></i>
 												</button>
 											</div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="" ng-click="upClick()">
+												<button class="btn btn-default btn-block"  ng-disabled="!(canStartGame)"onclick="" ng-click="upClick()">
 													<i class="fa fa-arrow-up"></i>
 												</button>
 											</div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="" ng-show="canMoveDiagonal" ng-click="upRight()">
+												<button class="btn btn-default btn-block" onclick="" ng-disabled="!(canStartGame)" ng-show="canMoveDiagonal" ng-click="upRight()">
 													<i class="fa fa-arrow-up rotate-right45"></i>
 												</button>
 											</div>
 											<div class="clearfix"></div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="" ng-click="leftClick()">
+												<button class="btn btn-default btn-block" ng-disabled="!(canStartGame)" onclick="" ng-click="leftClick()">
 													<i class="fa fa-arrow-left"></i>
 												</button>
 											</div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="">
+												<button class="btn btn-default btn-block" ng-disabled="!(canStartGame)" onclick="">
 													<i class="fa fa-2x fa-user-secret" ng-class="playerClass"></i>
 												</button>
 											</div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="" ng-click="rightClick()">
+												<button class="btn btn-default btn-block" onclick="" ng-disabled="!(canStartGame)" ng-click="rightClick()">
 													<i class="fa fa-arrow-right"></i>
 												</button>
 											</div>
 											<div class="clearfix"></div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="" ng-show="canMoveDiagonal" ng-click="downLeft()">
+												<button class="btn btn-default btn-block" onclick="" ng-disabled="!(canStartGame)" ng-show="canMoveDiagonal" ng-click="downLeft()">
 													<i class="fa fa-arrow-down rotate-right45"></i>
 												</button>
 											</div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="" ng-click="downClick()">
+												<button class="btn btn-default btn-block" onclick="" ng-disabled="!(canStartGame)" ng-click="downClick()">
 													<i class="fa fa-arrow-down"></i>
 												</button>
 											</div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="" ng-show="canMoveDiagonal" ng-click="downRight()">
+												<button class="btn btn-default btn-block" onclick="" ng-disabled="!(canStartGame)" ng-show="canMoveDiagonal" ng-click="downRight()">
 													<i class="fa fa-arrow-down rotate-left45"></i>
 												</button>
 											</div>
@@ -413,17 +419,17 @@
 											</div>-->
 											<div class="clearfix"></div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="" ng-click="undo()">
+												<button class="btn btn-default btn-block"  ng-disabled="!(canStartGame)" onclick="" ng-click="undo()">
 													<i class="fa fa-undo"></i>
 												</button>
 											</div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="">
+												<button class="btn btn-default btn-block" ng-disabled="!(canStartGame)" onclick="">
 													<i class="fa fa-chain-broken"></i>
 												</button>
 											</div>
 											<div class="col-md-4 panel-control">
-												<button class="btn btn-default btn-block" onclick="">
+												<button class="btn btn-default btn-block" ng-disabled="!(canStartGame)" onclick="">
 													<i class="fa fa-sliders"></i>
 												</button>
 											</div>
@@ -542,34 +548,18 @@
 								<div id="chat-messages">
 									<ul class="messages">
 										<li class="log">Welcome to Hackers chat –</li>
-										<li class="log">there are 3 participants</li>
-										<li class="message">
-											<span class="hacker-script-kiddie message-hacker"> 
+										<li class="log">there are {{currentNumberOfPlayers}} participants</li>
+										<li class="message" ng-repeat="message in messages">
+											<span ng-class="message.user" class="message-hacker"> 
 												<i class="fa fa-2x fa-user-secret"></i>
 											</span> 
-											<span class="messageBody">Hi I am script kiddie</span>
-										</li>
-										<li class="message">
-											<span class="hacker-state-sponsored message-hacker"> 
-												<i class="fa fa-2x fa-user-secret"></i>
-											</span> 
-											<span class="messageBody">Hi I am state sponsored hacker. And I like to type in long messages. Let's see hot the chat box handles it.</span>
-										</li>
-										<li class="message">
-											<span class="hacker-script-black-hat message-hacker"> 
-												<i class="fa fa-2x fa-user-secret"></i>
-											</span> 
-											<span class="messageBody">Hi I am script kiddie</span>
-										</li>
-										<li class="message">
-											<span class="hacker-script-kiddie message-hacker"> 
-												<i class="fa fa-2x fa-user-secret"></i>
-											</span> 
-											<span class="messageBody">Where are others?</span>
+											<span class="messageBody">{{message.text}}</span>
 										</li>
 									</ul>
 								</div>
-								<input type="text" id="chat-input"></input>
+								<form ng-submit="sendMessage()">
+								  <input type="text" id="chat-input" ng-model="chatMessage"></input>
+								</form>
 							</div>
 
 						</div>

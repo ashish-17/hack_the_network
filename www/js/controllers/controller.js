@@ -12,6 +12,7 @@ app.controller('chooseHackerController',function($scope, $route, $routeParams, $
       console.log(JSON.stringify(data));
       $scope.hackerTypes = data;
       $scope.hackerName = data[0].typeName;
+      $scope.messages = [];
   
   };
   var failureCB1 = function(data){
@@ -58,40 +59,10 @@ app.controller('GameController',function($scope,$route,$routeParams,$location,So
       var listOfMoves = [];
       $scope.playerDetails = {};
       $scope.playerClass = "";
-      
-    /*  var doughnutData = [ {
-		value : 1,
-		color : "#46BFBD",
-		highlight : "#5AD3D1",
-		label : "Security Updates"
-	}, {
-		value : 2,
-		color : "#FDB45C",
-		highlight : "#FFC870",
-		label : "Security Updates"
-	}, {
-		value : 3,
-		color : "#386bb7",
-		highlight : "#6d96d2",
-		label : "Security Updates"
-	}, {
-		value : 4,
-		color : "#c43fa2",
-		highlight : "#d26db8",
-		label : "Security Updates"
-	}, {
-		value : 5,
-		color : "#9334b1",
-		highlight : "#bb6dd4",
-		label : "Security Updates"
-	}, {
-		value : 6,
-		color : "#F7464A",
-		highlight : "#FF5A5E",
-		label : "Security Updates"
-	}
-	];*/
-	
+      $scope.canStartGame = false;
+      $scope.coverClass = "cover";
+      $scope.messages = [];
+	  $scope.chatMessage = "";
 	
 	var doughnutData = [ {
 		value : 1,
@@ -132,9 +103,19 @@ app.controller('GameController',function($scope,$route,$routeParams,$location,So
 	    responsive : true
 	};
       
+      /*******************************************/
+      /*           Creation of Chart             */
+      /******************************************/
+      
       var ctx = document.getElementById("security-level").getContext("2d");
       var myChart = new Chart(ctx).Doughnut(doughnutData,chartOptions);
-     console.log("The chart object is:"+JSON.stringify(myChart));
+      console.log("The chart object is:"+JSON.stringify(myChart));
+     
+     
+     /*******************************************/
+      /*           Creation of New Game          */
+      /******************************************/
+      
       var promise = SocketFactory.createNewGame();
       promise.then(function(data){
       
@@ -147,6 +128,8 @@ app.controller('GameController',function($scope,$route,$routeParams,$location,So
            $scope.canMoveAnywhere = move.anywhere.numberOfActions;
         }
         console.log("Can move Diagonal:"+$scope.canMoveDiagonal);
+        SocketFactory.emit('joinedNewGame',null);
+        
       },function(data){
       
         console.log("Error!! while resolving the promise");
@@ -154,11 +137,40 @@ app.controller('GameController',function($scope,$route,$routeParams,$location,So
       });
       
       
+       /*******************************************/
+      /*   Listeners for Socket emitters          */
+      /******************************************/
+      
+      
       SocketFactory.on('hackerPositionChanged', function (data) {
                    console.log("The changed data is:"+JSON.stringify(data));
                    hackerMove(data.hackerRole,data.nextPosition);      
             });
+            
+      SocketFactory.on('log',function(data){
       
+             console.debug("Received the log event!!");
+             $scope.logMessage = data.message;
+             console.log("The log messages are:"+$scope.logMessage);
+             $scope.currentNumberOfPlayers = data.numberOfPlayers;
+             $scope.canStartGame = data.canStartPlaying;
+             $scope.coverClass =  $scope.canStartGame?null:'cover';
+             $scope.$apply();
+      
+      });      
+      
+      SocketFactory.on('receive:message',function(data){
+      
+             console.debug('Received the message');
+             $scope.messages.push(data);                     
+             $scope.$apply();
+      
+      });
+            
+     /*******************************************/
+      /*           Handlers for Buttons          */
+      /******************************************/
+       
      $scope.leftClick = function(){
      
 
@@ -352,9 +364,23 @@ app.controller('GameController',function($scope,$route,$routeParams,$location,So
         
      };
      
+     $scope.sendMessage = function(){
      
+        console.log('Hit the chat message');
+        var chatObject = {
+          user:$scope.playerClass
+          ,text:$scope.chatMessage
+        
+        };
+        SocketFactory.emit('send:message',chatObject);
+         
+       //Add the message to our model locally
+       $scope.messages.push(chatObject);
+       $scope.chatMessage="";
             
-       
+     };
+     
+        
      var hackerMove = function(hackerType,nextPosition){
      
             console.log("The hackertype is:"+hackerType);

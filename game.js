@@ -4,6 +4,7 @@ var io;
 var gameSocket;
 var thisGameId;
 var numberOfPlayers = 0;
+var totalNumberOfPlayers = 6;
 
 console.log('The number of players are:'+numberOfPlayers);
 exports.initGame = function(listener, socket,thisGameId){
@@ -11,10 +12,11 @@ exports.initGame = function(listener, socket,thisGameId){
     io = listener; 
     gameSocket = socket;
     thisGameId = thisGameId;
-    numberOfPlayers = numberOfPlayers+1;
     gameSocket.emit('connected', { message: "You are connected!"}); 
     gameSocket.on('joinNewGame', joinNewGame);
     gameSocket.on('changeHackerPosition',changeHackerPosition);
+    gameSocket.on('joinedNewGame',onPlayerJoinedNewGame);
+    gameSocket.on('send:message',onSendMessage);
     console.log("Emitted the message");
     
 }
@@ -32,19 +34,53 @@ exports.initGame = function(listener, socket,thisGameId){
 function joinNewGame(callback) {
     // Create a unique Socket.IO Room
     //var thisGameId = ( Math.random() * 100000 ) | 0;
+    numberOfPlayers = numberOfPlayers+1;
     console.log("The number of players are:"+numberOfPlayers);
-    // Return the Room ID (gameId) and the socket ID (mySocketId) to the browser client
-     //var position = getRandomArbitrary(0, 25);
+   
      var index = (numberOfPlayers-1)%6;
      var position = hackerTypes[index].position
      console.log("The position for next player is:"+position);
      callback({gameId: thisGameId, mySocketId: this.id,role:arrayOfTypes[numberOfPlayers-1],rules:hackerTypes[numberOfPlayers-1],position:position});   
    
-    // Join the Room and wait for the players
-   // this.join(thisGameId.toString());
+    
 };
 
 
+function onPlayerJoinedNewGame(){
+
+    console.log('The value of this is:'+this.id);
+    console.log('The value of gameSocket is:'+gameSocket.id);
+    console.log('The number of players are:'+numberOfPlayers);
+    var sock = this;
+    var message,data; 
+    if(numberOfPlayers == totalNumberOfPlayers){
+       
+       message1 = "New Player Joined. Total "+numberOfPlayers+" players. Start the Game!!";
+       message2 = "Successfully  Joined. Total "+numberOfPlayers+" players. Start the Game!!";
+       data1 = {numberOfPlayers:numberOfPlayers,message:message1,canStartPlaying:1};
+       data2 = {numberOfPlayers:numberOfPlayers,message:message2,canStartPlaying:1};
+    
+    }
+    else{
+    
+      message1 = "New Player Joined. Total "+numberOfPlayers+" players. Require "+(totalNumberOfPlayers-numberOfPlayers)+" more players. Wait...";
+      message2 = "Successfully Joined. Total "+numberOfPlayers+" players. Require "+(totalNumberOfPlayers-numberOfPlayers)+" more players. Wait...";
+      data1 = {numberOfPlayers:numberOfPlayers,message:message1,canStartPlaying:0};
+      data2 = {numberOfPlayers:numberOfPlayers,message:message2,canStartPlaying:0};
+    
+    }
+    sock.broadcast.emit('log',data1);
+    sock.emit('log',data2);
+    
+};
+
+
+function onSendMessage(message){
+
+   var sock = this; 
+   sock.broadcast.emit('receive:message',message);
+
+};
  
  
 /* *****************************
